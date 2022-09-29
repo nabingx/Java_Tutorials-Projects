@@ -116,11 +116,15 @@ public class Main2 {
 		
 		//		94------------------------
 		// IDandPasswords + LoginPage + WelcomePage
-		IDandPasswords idandPasswords = new IDandPasswords();
+		//IDandPasswords idandPasswords = new IDandPasswords();
 		
-		LoginPage loginPage = new LoginPage(idandPasswords.getLoginInfo());
+		//LoginPage loginPage = new LoginPage(idandPasswords.getLoginInfo());
 		
 		//		95------------------------
+		//TicTacToe tictactoe = new TicTacToe();
+		
+		//		96------------------------
+		
 		
 	}
 
