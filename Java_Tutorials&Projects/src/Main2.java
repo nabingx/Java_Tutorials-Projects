@@ -124,7 +124,7 @@ public class Main2 {
 		//TicTacToe tictactoe = new TicTacToe();
 		
 		//		96------------------------
-		
+		Quiz quiz = new Quiz();
 		
 	}
 
