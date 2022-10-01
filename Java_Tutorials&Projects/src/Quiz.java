@@ -21,7 +21,7 @@ public class Quiz implements ActionListener{
 								'B',
 								'C',
 								'C'
-							};
+							}; // true answers to check T/F
 	char guess;
 	char answer;
 	int index;
@@ -31,8 +31,8 @@ public class Quiz implements ActionListener{
 	int second = 10;
 	
 	JFrame frame = new JFrame();
-	JTextField textfield = new JTextField();
-	JTextArea textarea = new JTextArea();
+	JTextField textfield = new JTextField(); // title or question st/nd/th
+	JTextArea textarea = new JTextArea(); // question's naiyou :)
 	
 	JButton buttonA = new JButton();
 	JButton buttonB = new JButton();
@@ -48,6 +48,18 @@ public class Quiz implements ActionListener{
 	JLabel second_left = new JLabel();
 	JTextField number_right = new JTextField();
 	JTextField percentage = new JTextField();
+	
+	Timer timer = new Timer(1000, new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			second--;
+			second_left.setText(String.valueOf(second));
+			if (second <= 0)
+				displayAnswer();
+		}
+	});
 	
 	Quiz() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -168,19 +180,120 @@ public class Quiz implements ActionListener{
 	}
 	
 	public void nextQuestion() {
-		
+		if (index >= total_questions) {
+			results();
+		}
+		else {
+			textfield.setText("Question " + (index + 1));
+			textarea.setText(questions[index]);
+			answer_labelA.setText(options[index][0]);
+			answer_labelB.setText(options[index][1]);
+			answer_labelC.setText(options[index][2]);
+			answer_labelD.setText(options[index][3]);
+			timer.start();
+		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		buttonA.setEnabled(false);
+		buttonB.setEnabled(false);
+		buttonC.setEnabled(false);
+		buttonD.setEnabled(false);
+		
+		if (e.getSource() == buttonA) {
+			answer = 'A';
+			if (answer == answers[index]) {
+				correct_guesses++;
+			}
+		}
+		else if (e.getSource() == buttonB) {
+			answer = 'B';
+			if (answer == answers[index]) {
+				correct_guesses++;
+			}
+		}
+		else if (e.getSource() == buttonC) {
+			answer = 'C';
+			if (answer == answers[index]) {
+				correct_guesses++;
+			}
+		}
+		else if (e.getSource() == buttonD) {
+			answer = 'D';
+			if (answer == answers[index]) {
+				correct_guesses++;
+			}
+		}
+		
+		displayAnswer();
 	}
 	
 	public void displayAnswer() {
 		
+		timer.stop();
+		
+		buttonA.setEnabled(false);
+		buttonB.setEnabled(false);
+		buttonC.setEnabled(false);
+		buttonD.setEnabled(false);
+		
+		if (answers[index] != 'A')
+			answer_labelA.setForeground(new Color(255, 0, 0));
+		if (answers[index] != 'B')
+			answer_labelB.setForeground(new Color(255, 0, 0));
+		if (answers[index] != 'C')
+			answer_labelC.setForeground(new Color(255, 0, 0));
+		if (answers[index] != 'D')
+			answer_labelD.setForeground(new Color(255, 0, 0));
+		
+		Timer pause = new Timer(1500, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+		
+				answer_labelA.setForeground(new Color(25, 255, 0));
+				answer_labelB.setForeground(new Color(25, 255, 0));
+				answer_labelC.setForeground(new Color(25, 255, 0));
+				answer_labelD.setForeground(new Color(25, 255, 0));
+				
+				answer = ' ';
+				second = 10;
+				second_left.setText(String.valueOf(second));
+				buttonA.setEnabled(true);
+				buttonB.setEnabled(true);
+				buttonC.setEnabled(true);
+				buttonD.setEnabled(true);
+				index++;
+				nextQuestion();
+			}
+		});
+		
+		pause.setRepeats(false);
+		pause.start();
 	}
 	
 	public void results() {
+
+		buttonA.setEnabled(false);
+		buttonB.setEnabled(false);
+		buttonC.setEnabled(false);
+		buttonD.setEnabled(false);
+		
+		result = (int) ((correct_guesses / (double) total_questions) * 100);
+		textfield.setText("RESULT!");
+		textarea.setText("");
+		answer_labelA.setText("");
+		answer_labelB.setText("");
+		answer_labelC.setText("");
+		answer_labelD.setText("");
+		
+		number_right.setText("(" + correct_guesses + "/" + total_questions + ")");
+		percentage.setText(result + "%");
+		
+		frame.add(percentage);
+		frame.add(number_right);
 		
 	}
 	
