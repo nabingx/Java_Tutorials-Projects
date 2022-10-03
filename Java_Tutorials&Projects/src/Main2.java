@@ -127,7 +127,11 @@ public class Main2 {
 		//Quiz quiz = new Quiz();
 		
 		//		97------------------------
-		new SnakeGameFrame();
+		//new SnakeGameFrame();
+		
+		//		98------------------------
+		new PongGameFrame();
+		
 	}
 
 }
